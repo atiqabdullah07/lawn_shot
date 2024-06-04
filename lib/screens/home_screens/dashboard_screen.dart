@@ -9,17 +9,10 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: Colors.grey.shade100,
         toolbarHeight: 80.0,
         centerTitle: false,
         title: Row(
           children: [
-            // Container(
-            //   height: 48,
-            //   width: 48,
-            //   decoration: BoxDecoration(
-            //       color: Colors.red, borderRadius: BorderRadius.circular(100)),
-            // ),
             CircleAvatar(
               radius: 24.r,
               backgroundImage: const NetworkImage(
@@ -39,7 +32,7 @@ class Dashboard extends StatelessWidget {
                       fontWeight: FontWeight.w500),
                 ),
                 Text(
-                  'Shane',
+                  'Gardner',
                   style: TextStyle(
                       color: AppColors.lightGrey,
                       fontSize: 14,
@@ -61,70 +54,85 @@ class Dashboard extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 20),
-              child: Text(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
                 "Diseases",
                 style: TextStyle(
                     color: AppColors.primaryGreen,
                     fontSize: 16,
                     fontWeight: FontWeight.w500),
               ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            SizedBox(
-              height: 150,
-              child: ListView.builder(
-                itemCount: 5,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 16),
-                    child: Container(
-                      height: 117,
-                      width: 300,
-                      decoration: BoxDecoration(
+              const SizedBox(
+                height: 8,
+              ),
+              Expanded(
+                child: GridView.builder(
+                  itemCount: 4,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                    childAspectRatio: 2 / 2,
+                  ),
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(0),
+                      child: Container(
+                        decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(
-                                  0.1), // Shadow color with opacity
+                              color: Colors.grey.withOpacity(0.1),
                               spreadRadius: 2,
                               blurRadius: 10,
-                              offset: const Offset(
-                                  2, 2), // changes position of shadow
+                              offset: const Offset(2, 2),
                             ),
                           ],
-                          color: Colors.white),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 100,
-                              width: 100,
-                              decoration: BoxDecoration(
+                          color: Colors.white,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 100,
+                                width: 100,
+                                decoration: BoxDecoration(
                                   color: Colors.grey.shade100,
                                   borderRadius: BorderRadius.circular(8),
                                   image: const DecorationImage(
-                                      image: NetworkImage(
-                                          "https://media.istockphoto.com/id/1380361370/photo/decorative-banana-plant-in-concrete-vase-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=eYADMQ9dXTz1mggdfn_exN2gY61aH4fJz1lfMomv6o4="))),
-                            )
-                          ],
+                                    image: NetworkImage(
+                                      "https://media.istockphoto.com/id/1380361370/photo/decorative-banana-plant-in-concrete-vase-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=eYADMQ9dXTz1mggdfn_exN2gY61aH4fJz1lfMomv6o4=",
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  "Diseases",
+                                  style: TextStyle(
+                                      color: AppColors.black,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              ),
-            )
-          ],
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

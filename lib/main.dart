@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lawn_shot/providers/auth_provider.dart';
 import 'package:lawn_shot/providers/home_provider.dart';
+import 'package:lawn_shot/providers/scan_provider.dart';
 import 'package:lawn_shot/routes/routes.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,7 @@ Future<void> main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => HomeProvider()),
+        ChangeNotifierProvider(create: (_) => ScanProvider()),
       ],
       child: const MyApp(),
     ),

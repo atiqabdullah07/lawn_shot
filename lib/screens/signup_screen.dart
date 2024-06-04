@@ -1,23 +1,25 @@
-// screens/login_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawn_shot/core/constants/constants.dart';
 import 'package:lawn_shot/providers/auth_provider.dart';
-import 'package:lawn_shot/screens/signup_screen.dart';
+import 'package:lawn_shot/screens/login_screen.dart';
 import 'package:lawn_shot/widgets/custom_button.dart';
 import 'package:lawn_shot/widgets/custom_textfield.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+  final TextEditingController _userNameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -33,12 +35,14 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const SizedBox(),
+                const SizedBox(
+                  height: 25,
+                ),
                 Column(
                   children: [
                     const Center(
                       child: Text(
-                        'Sign In',
+                        'Create Account',
                         style: TextStyle(
                             color: AppColors.black,
                             fontSize: 28,
@@ -47,7 +51,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const Center(
                       child: Text(
-                        'Welcome Back',
+                        textAlign: TextAlign.center,
+                        'Add your credentials or sign up with your social account',
                         style: TextStyle(
                           color: AppColors.darkGrey,
                           fontSize: 18,
@@ -61,6 +66,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         key: _formKey,
                         child: Column(
                           children: [
+                            CustomTextField(
+                              hintText: 'Username',
+                              controller: _userNameController,
+                              obsecureText: false,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Enter a Username';
+                                }
+
+                                return null;
+                              },
+                            ),
+                            const SizedBox(
+                              height: 16,
+                            ),
                             CustomTextField(
                               hintText: 'Email',
                               controller: _emailController,
@@ -103,6 +123,30 @@ class _LoginScreenState extends State<LoginScreen> {
                                 return null;
                               },
                             ),
+                            const SizedBox(
+                              height: 16,
+                            ),
+                            CustomTextField(
+                              isPasswordField: true,
+                              obsecureText:
+                                  userProvider.isPasswordVisible == true
+                                      ? true
+                                      : false,
+                              controller: _confirmPasswordController,
+                              hintText: "Confirm Password",
+                              suffixTap: () {
+                                userProvider.changePasswordVisibility();
+                              },
+                              validator: (value) {
+                                if (value == null ||
+                                    value !=
+                                        _passwordController.text.toString()) {
+                                  return 'Passwords do not match';
+                                }
+
+                                return null;
+                              },
+                            ),
                             SizedBox(
                               height: 10.h,
                             ),
@@ -113,35 +157,22 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                           ],
                         )),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        InkWell(
-                          child: const Text(
-                            "Forget Password?",
-                            style: TextStyle(
-                                color: AppColors.primaryGreen, fontSize: 14),
-                            textAlign: TextAlign.end,
-                          ),
-                          onTap: () {
-                            Navigator.pushNamed(context, '/forget_password');
-                          },
-                        ),
-                      ],
-                    ),
                     SizedBox(
                       height: 50.h,
                     ),
                     CustomButton(
-                      title: "Sign In",
+                      title: "Sign Up",
                       onPress: () {
                         if (_formKey.currentState!.validate()) {
                           userProvider
-                              .signInWithEmail(_emailController.text,
-                                  _passwordController.text)
+                              .createUserWithEmailAndPassword(
+                                  _emailController.text,
+                                  _passwordController.text,
+                                  _userNameController.text)
                               .then((_) {
                             if (userProvider.user != null) {
-                              Navigator.pushReplacementNamed(context, '/home');
+                              Navigator.of(context).pop();
+                              // Navigator.pushReplacementNamed(context, '/login');
                             }
                           });
                         }
@@ -153,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "Don't have an account?",
+                      "Already have an account?",
                       style: TextStyle(color: AppColors.black),
                     ),
                     InkWell(
@@ -161,11 +192,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SignupScreen()),
+                              builder: (context) => LoginScreen()),
                         );
                       },
                       child: const Text(
-                        " Sign Up here",
+                        " SignIn here",
                         style: TextStyle(
                             color: AppColors.primaryGreen,
                             fontWeight: FontWeight.bold),
@@ -181,65 +212,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
-// class LoginScreen extends StatefulWidget {
-//   const LoginScreen({super.key});
-
-//   @override
-//   // ignore: library_private_types_in_public_api
-//   _LoginScreenState createState() => _LoginScreenState();
-// }
-
-// class _LoginScreenState extends State<LoginScreen> {
-//   final TextEditingController emailController = TextEditingController();
-//   final TextEditingController passwordController = TextEditingController();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final userProvider = Provider.of<UserProvider>(context);
-
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Login'),
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           children: [
-//             TextField(
-//               controller: emailController,
-//               decoration: const InputDecoration(labelText: 'Email'),
-//               keyboardType: TextInputType.emailAddress,
-//             ),
-//             TextField(
-//               controller: passwordController,
-//               decoration: const InputDecoration(labelText: 'Password'),
-//               obscureText: true,
-//             ),
-//             if (userProvider.errorMessage != null)
-//               Text(
-//                 userProvider.errorMessage!,
-//                 style: const TextStyle(color: Colors.red),
-//               ),
-//             const SizedBox(height: 20),
-//             userProvider.isLoading
-//                 ? const CircularProgressIndicator()
-//                 : ElevatedButton(
-//                     onPressed: () {
-//                       userProvider
-//                           .signInWithEmail(
-//                               emailController.text, passwordController.text)
-//                           .then((_) {
-//                         if (userProvider.user != null) {
-//                           Navigator.pushReplacementNamed(context, '/home');
-//                         }
-//                       });
-//                     },
-//                     child: const Text('Login'),
-//                   ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
