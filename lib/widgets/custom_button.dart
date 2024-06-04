@@ -10,12 +10,14 @@ class CustomButton extends StatelessWidget {
     required this.onPress,
     this.color = AppColors.primaryGreen,
     this.nextIcon = false,
+    this.lockIcon = false,
   });
 
   final String title;
   final VoidCallback onPress;
   Color color;
   bool nextIcon;
+  bool lockIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,20 @@ class CustomButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            lockIcon == true
+                ? const Row(
+                    children: [
+                      Icon(
+                        Icons.lock,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                    ],
+                  )
+                : const SizedBox(),
             Text(
               title,
               style: const TextStyle(

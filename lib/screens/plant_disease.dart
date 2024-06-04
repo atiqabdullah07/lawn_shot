@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawn_shot/core/constants/constants.dart';
 import 'package:lawn_shot/widgets/custom_button.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/auth_provider.dart';
 
 class PlantDiseaseDetails extends StatefulWidget {
   const PlantDiseaseDetails(
@@ -19,6 +22,7 @@ class PlantDiseaseDetails extends StatefulWidget {
 class _PlantDiseaseDetailsState extends State<PlantDiseaseDetails> {
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Plant Disease Details'),
@@ -54,7 +58,16 @@ class _PlantDiseaseDetailsState extends State<PlantDiseaseDetails> {
             const SizedBox(
               height: 40,
             ),
-            CustomButton(title: 'Save Disease', onPress: () {})
+            CustomButton(
+              title: 'Fertilization Plan',
+              lockIcon: userProvider.user!.isPremium ? false : true,
+              onPress: () {
+                userProvider.user!.isPremium
+                    ? Navigator.pushReplacementNamed(
+                        context, '/plant_details_screen')
+                    : Navigator.pushReplacementNamed(context, '/payment_plan');
+              },
+            ),
           ],
         ),
       ),
