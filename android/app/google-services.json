@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "425569509684",
+    "project_id": "car-security-app",
+    "storage_bucket": "car-security-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425569509684:android:3f209cd5b4b8c7550f8561",
+        "android_client_info": {
+          "package_name": "com.example.lawn_shot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "425569509684-fcjh6tadhgd6a5k0e60fm63rsqgkricv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBayCFHxNP4qG8vHZE-iwIh53aaUDkZvjQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "425569509684-fcjh6tadhgd6a5k0e60fm63rsqgkricv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
