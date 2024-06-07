@@ -6,17 +6,17 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var setings = ['Edit Profile', 'Help & Feedback', 'About Us', 'Log Out'];
+    var settings = ['Edit Profile', 'Help & Feedback', 'About Us', 'Log Out'];
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Settings'),
         ),
         body: ListView.builder(
-          itemCount: setings.length,
+          itemCount: settings.length,
           itemBuilder: (context, index) {
             return Padding(
-              padding: setings[index] == 'Log Out'
+              padding: settings[index] == 'Log Out'
                   ? const EdgeInsets.symmetric(horizontal: 25, vertical: 65)
                   : const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
               child: Container(
@@ -33,7 +33,7 @@ class SettingsScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: setings[index] == 'Log Out'
+                child: settings[index] == 'Log Out'
                     ? InkWell(
                         onTap: () {},
                         child: Center(
@@ -50,7 +50,7 @@ class SettingsScreen extends StatelessWidget {
                                   width: 20,
                                 ),
                                 Text(
-                                  setings[index],
+                                  settings[index],
                                   style: const TextStyle(
                                       color: Colors.red, fontSize: 18),
                                 ),
@@ -62,19 +62,26 @@ class SettingsScreen extends StatelessWidget {
                     : Center(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                setings[index],
-                                style: const TextStyle(
-                                    color: AppColors.black, fontSize: 18),
-                              ),
-                              const Icon(
-                                Icons.arrow_forward_ios,
-                                color: AppColors.black,
-                              )
-                            ],
+                          child: GestureDetector(
+                            onTap: () {
+                              if (settings[index] == 'Edit Profile') {
+                                Navigator.pushNamed(context, '/edit_profile');
+                              }
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  settings[index],
+                                  style: const TextStyle(
+                                      color: AppColors.black, fontSize: 18),
+                                ),
+                                const Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: AppColors.black,
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),

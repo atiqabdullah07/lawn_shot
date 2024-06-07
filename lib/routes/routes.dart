@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lawn_shot/screens/forget_password_screen.dart';
 import 'package:lawn_shot/screens/home_screen.dart';
+import 'package:lawn_shot/screens/home_screens/edit_profile_screen.dart';
 import 'package:lawn_shot/screens/home_screens/lawn_screen.dart';
 import 'package:lawn_shot/screens/home_screens/plant_details_screen.dart';
 import 'package:lawn_shot/screens/home_screens/premium_plan_screen.dart';
@@ -17,6 +18,7 @@ class AppRoutes {
 
   static const String planDetails = '/plant_details_screen';
   static const String lawn = '/lawn_screen';
+  static const String editProfile = '/edit_profile';
 
   static Map<String, WidgetBuilder> routes = {
     home: (context) => HomeScreen(),
@@ -26,5 +28,6 @@ class AppRoutes {
     paymentPlan: (context) => const PremiumPlanScreen(),
     planDetails: (context) => const PlanDetailsScreen(),
     lawn: (context) => const LawnScreen(),
+    editProfile: (context) => const EditProfileScreen(),
   };
 }

@@ -1,16 +1,15 @@
 // providers/user_provider.dart
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:lawn_shot/core/constants/constants.dart';
-import '../models/user_model.dart';
 
-import 'package:firebase_auth/firebase_auth.dart' as auth;
+import '../models/user_model.dart';
 
 class UserProvider with ChangeNotifier {
   UserModel? user;
@@ -19,6 +18,32 @@ class UserProvider with ChangeNotifier {
   bool isPasswordVisible = false;
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  File? pickedImage;
+
+  Future<String> uploadPicture(File image) async {
+    try {
+      final imgId = DateTime.now().millisecondsSinceEpoch.toString();
+      final storageRef = FirebaseStorage.instance.ref('Profile Pics');
+      final imgRef = storageRef.child('path_$imgId');
+
+      await imgRef.putFile(image);
+
+      final url = await imgRef.getDownloadURL();
+
+      return url;
+    } catch (e) {
+      if (e is FirebaseException) {
+        log('Firebase Storage Error: ${e.code}');
+        log('Firebase Storage Error Message: ${e.message}');
+      } else {
+        log('Error uploading or getting download URL: $e');
+        // Handle other types of errors if needed.
+      }
+
+      return ''; // Return a default value on failure
+    }
+  }
 
   void changePasswordVisibility() {
     isPasswordVisible = !isPasswordVisible;
@@ -37,12 +62,14 @@ class UserProvider with ChangeNotifier {
 
     bool isPremium = userData?['isPremium'] ?? false;
     String? userName = userData?['userName'] ?? '';
+    String? pfp = userData?['pfp'] ?? '';
 
     user = UserModel(
         uid: firebaseUser.uid,
         email: firebaseUser.email!,
         userName: userName!,
-        isPremium: isPremium);
+        isPremium: isPremium,
+        pfp: pfp!);
 
     return user;
   }
@@ -110,6 +137,7 @@ class UserProvider with ChangeNotifier {
           'email': firebaseUser.email,
           'userName': userName,
           'isPremium': false,
+          'pfp': '',
         });
 
         errorMessage = null;
@@ -155,6 +183,36 @@ class UserProvider with ChangeNotifier {
       });
       await _fetchUserData(_auth.currentUser);
     }
+  }
+
+  Future<void> updateProfilePicture(String pfp) async {
+    isLoading = true;
+    easyLoading();
+    notifyListeners();
+    if (user != null) {
+      await _firestore.collection('users').doc(user!.uid).update({
+        'pfp': pfp,
+      });
+      await _fetchUserData(_auth.currentUser);
+    }
+    isLoading = false;
+    EasyLoading.dismiss();
+    notifyListeners();
+  }
+
+  Future<void> updateUserName(String userName) async {
+    isLoading = true;
+    easyLoading();
+    notifyListeners();
+    if (user != null) {
+      await _firestore.collection('users').doc(user!.uid).update({
+        'userName': userName,
+      });
+      await _fetchUserData(_auth.currentUser);
+    }
+    isLoading = false;
+    EasyLoading.dismiss();
+    notifyListeners();
   }
 
   Future<void> signOut() async {

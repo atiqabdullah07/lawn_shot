@@ -2,6 +2,7 @@
 class Assets {
   Assets._();
 
+  static const String assetsDefaultpic = 'assets/defaultpic.jpg';
   static const String assetsHome = 'assets/home.svg';
   static const String assetsLawn = 'assets/lawn.svg';
   static const String assetsScan = 'assets/scan.svg';
