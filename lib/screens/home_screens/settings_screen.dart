@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:lawn_shot/core/constants/constants.dart';
+import 'package:lawn_shot/providers/auth_provider.dart';
+import 'package:lawn_shot/providers/home_provider.dart';
+import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
     var settings = ['Edit Profile', 'Help & Feedback', 'About Us', 'Log Out'];
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
           title: const Text('Settings'),
+          automaticallyImplyLeading: false,
         ),
         body: ListView.builder(
           itemCount: settings.length,
@@ -35,7 +40,13 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 child: settings[index] == 'Log Out'
                     ? InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          userProvider.signOut();
+                          Provider.of<HomeProvider>(context, listen: false)
+                              .selectedIndex = 0;
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/login', (Route<dynamic> route) => false);
+                        },
                         child: Center(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 15),

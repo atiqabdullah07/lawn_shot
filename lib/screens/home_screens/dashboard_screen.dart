@@ -10,6 +10,7 @@ class Dashboard extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80.0,
+        automaticallyImplyLeading: false,
         centerTitle: false,
         title: Row(
           children: [

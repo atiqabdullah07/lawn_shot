@@ -5,6 +5,7 @@ class UserModel {
   final String email;
   final String pfp;
   final bool isPremium;
+  final bool isVerified;
 
   UserModel({
     required this.uid,
@@ -12,5 +13,6 @@ class UserModel {
     required this.email,
     required this.isPremium,
     required this.pfp,
+    required this.isVerified,
   });
 }

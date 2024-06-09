@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lawn_shot/screens/email_verification_screen.dart';
 import 'package:lawn_shot/screens/forget_password_screen.dart';
 import 'package:lawn_shot/screens/home_screen.dart';
 import 'package:lawn_shot/screens/home_screens/edit_profile_screen.dart';
@@ -20,6 +21,7 @@ class AppRoutes {
   static const String lawn = '/lawn_screen';
   static const String editProfile = '/edit_profile';
 
+  static const String emailVerification = '/email_verification';
   static Map<String, WidgetBuilder> routes = {
     home: (context) => HomeScreen(),
     login: (context) => const LoginScreen(),
@@ -29,5 +31,6 @@ class AppRoutes {
     planDetails: (context) => const PlanDetailsScreen(),
     lawn: (context) => const LawnScreen(),
     editProfile: (context) => const EditProfileScreen(),
+    emailVerification: (context) => const EmailVerificationScreen(),
   };
 }

@@ -141,7 +141,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                   _passwordController.text)
                               .then((_) {
                             if (userProvider.user != null) {
-                              Navigator.pushReplacementNamed(context, '/home');
+                              if (!userProvider.user!.isVerified) {
+                                Navigator.pushReplacementNamed(
+                                    context, '/email_verification');
+                              } else {
+                                Navigator.pushReplacementNamed(
+                                    context, '/home');
+                              }
                             }
                           });
                         }

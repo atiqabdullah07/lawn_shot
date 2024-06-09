@@ -80,7 +80,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               backgroundImage: const AssetImage(
                                 'assets/defaultpic.jpg',
                               ),
-                              radius: 50.r,
+                              radius: 75.r,
                             );
                     },
                   ),

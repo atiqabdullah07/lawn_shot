@@ -16,8 +16,11 @@ class UserProvider with ChangeNotifier {
   String? errorMessage;
   bool isLoading = false;
   bool isPasswordVisible = false;
+
   final auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  auth.User? get emailVerificationUser => _auth.currentUser;
 
   File? pickedImage;
 
@@ -69,6 +72,7 @@ class UserProvider with ChangeNotifier {
         email: firebaseUser.email!,
         userName: userName!,
         isPremium: isPremium,
+        isVerified: firebaseUser.emailVerified,
         pfp: pfp!);
 
     return user;
@@ -174,6 +178,11 @@ class UserProvider with ChangeNotifier {
 
   Future<void> resetPassword({required String email}) async {
     await _auth.sendPasswordResetEmail(email: email);
+  }
+
+  Future<void> sendVerificationEmail() async {
+    final user = emailVerificationUser!;
+    await user.sendEmailVerification();
   }
 
   Future<void> updatePremiumStatus(bool status) async {

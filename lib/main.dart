@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lawn_shot/providers/auth_provider.dart';
+import 'package:lawn_shot/providers/email_verification_provider.dart';
 import 'package:lawn_shot/providers/home_provider.dart';
 import 'package:lawn_shot/providers/payment_provider.dart';
 import 'package:lawn_shot/providers/scan_provider.dart';
@@ -31,6 +32,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => HomeProvider()),
         ChangeNotifierProvider(create: (_) => ScanProvider()),
         ChangeNotifierProvider(create: (_) => PaymentProvider()),
+        ChangeNotifierProvider(create: (_) => EmailVerificationProvider()),
       ],
       child: const MyApp(),
     ),
